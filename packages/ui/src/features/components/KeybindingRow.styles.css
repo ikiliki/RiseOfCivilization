@@ -1,0 +1,24 @@
+.roc-keybind-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.roc-keybind-row button {
+  border: 1px solid #4f5d75;
+  background: #10192d;
+  color: #fff;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.roc-keybind-row small {
+  grid-column: 1 / -1;
+  color: #f38a8a;
+}
+
+.roc-keybind-row--conflict button {
+  border-color: #f38a8a;
+}

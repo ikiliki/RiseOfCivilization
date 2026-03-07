@@ -1,0 +1,26 @@
+.groupSummary {
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.groupLink {
+  flex: 1;
+}
+
+.toggleButton {
+  flex-shrink: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid rgba(50, 72, 118, 0.6);
+  border-radius: 0.45rem;
+  background: rgba(25, 39, 69, 0.9);
+  color: #d8e9ff;
+  cursor: pointer;
+}
+
+.toggleButton:hover {
+  background: rgba(46, 72, 121, 0.95);
+}

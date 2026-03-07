@@ -1,0 +1,53 @@
+.tech h2 {
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.subTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(53, 87, 143, 0.35);
+  margin-bottom: 1.1rem;
+}
+
+.subTab {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: rgba(37, 99, 235, 0.06);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.subTab:hover {
+  color: var(--text);
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(99, 179, 255, 0.2);
+}
+
+.subTab.active {
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.18);
+  border-color: rgba(99, 179, 255, 0.4);
+}
+
+.panel {
+  border: 1px solid rgba(53, 87, 143, 0.4);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(180deg, rgba(18, 30, 56, 0.98), rgba(15, 24, 44, 0.98));
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.diagrams {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}

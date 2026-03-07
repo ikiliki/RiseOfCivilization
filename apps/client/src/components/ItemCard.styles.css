@@ -1,0 +1,44 @@
+.item-card {
+  border: 1px solid #466184;
+  border-radius: 8px;
+  background: #182a43;
+  color: #dce8ff;
+  text-align: left;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.item-card--common {
+  border-color: #547295;
+}
+
+.item-card--rare {
+  border-color: #4e7de6;
+}
+
+.item-card--epic {
+  border-color: #a15be8;
+}
+
+.item-card--equipped {
+  background: #23395a;
+}
+
+.item-card-name {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.item-card-meta {
+  font-size: 11px;
+  color: #9db2d9;
+}
+
+.item-card-action {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #8fe3a8;
+}

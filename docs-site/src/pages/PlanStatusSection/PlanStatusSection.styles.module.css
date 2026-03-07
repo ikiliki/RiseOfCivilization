@@ -1,0 +1,93 @@
+.header {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+}
+
+.phaseCard {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.05rem;
+  border-radius: 12px;
+  border: 1px solid rgba(78, 126, 208, 0.26);
+  background:
+    linear-gradient(135deg, rgba(18, 53, 106, 0.94), rgba(13, 27, 52, 0.98));
+}
+
+.eyebrow {
+  color: #9dc8ff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.phaseCard h3 {
+  margin: 0;
+  color: #f1f6ff;
+}
+
+.phaseHint {
+  margin: 0;
+  color: #d4e2fa;
+  font-size: 0.9rem;
+}
+
+.statCards {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.statCard {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.95rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(69, 104, 168, 0.2);
+  background:
+    linear-gradient(180deg, rgba(19, 30, 56, 0.98), rgba(13, 22, 41, 0.98));
+}
+
+.statValue {
+  color: #eff5ff;
+  font-size: 1.28rem;
+  font-weight: 700;
+}
+
+.statLabel {
+  color: #96b1dc;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.phaseDashboard,
+.board {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.blockHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.blockHeader h3,
+.blockHeader p {
+  margin: 0;
+}
+
+.blockHeader p {
+  color: #96b0db;
+}
+
+@media (max-width: 960px) {
+  .header {
+    grid-template-columns: 1fr;
+  }
+}

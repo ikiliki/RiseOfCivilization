@@ -1,0 +1,73 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Server (Local)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@roc/server", "run", "start:local"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SERVER_PORT": "4000",
+        "SERVER_DISPLAY_NAME": "Scania",
+        "DATABASE_URL": "postgresql://postgres:postgres@127.0.0.1:5432/roc_scania"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug Server (Docker)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@roc/server", "run", "start:docker"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SERVER_PORT": "4001",
+        "SERVER_DISPLAY_NAME": "Bera",
+        "DATABASE_URL": "postgresql://postgres:postgres@127.0.0.1:5432/roc_bera"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Run Client (Local)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@roc/client", "run", "start:local"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Run Client (Docker)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@roc/client", "run", "start:docker"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Attach to Server",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"],
+      "restart": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Local (full debug)",
+      "configurations": ["Debug Server (Local)", "Run Client (Local)"],
+      "stopAll": true
+    },
+    {
+      "name": "Docker (full debug)",
+      "configurations": ["Debug Server (Docker)", "Run Client (Docker)"],
+      "stopAll": true
+    }
+  ]
+}

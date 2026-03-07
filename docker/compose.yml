@@ -1,0 +1,100 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: roc
+    ports:
+      - "5432:5432"
+    volumes:
+      - roc_postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d roc"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+
+  redis-ui:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - "8081:8081"
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  server:
+    container_name: bera
+    build:
+      context: ..
+      dockerfile: apps/server/Dockerfile
+    environment:
+      SERVER_PORT: 4001
+      SERVER_DISPLAY_NAME: Bera
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/roc_bera
+      REDIS_URL: redis://redis:6379
+      AUTH_TOKEN_SECRET: local-dev-secret
+      WORLD_SEED_DEFAULT: rise-of-civilization-mvp
+    working_dir: /app
+    command: ["sh", "-c", "npx tsx watch apps/server/src/index.ts"]
+    ports:
+      - "4001:4001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ..
+      dockerfile: apps/client/Dockerfile
+    environment:
+      VITE_API_BASE_URL: http://localhost:4001
+    working_dir: /app/apps/client
+    command: ["sh", "-c", "node ../../node_modules/vite/bin/vite.js --host 0.0.0.0 --port 5175"]
+    ports:
+      - "5175:5175"
+    depends_on:
+      server:
+        condition: service_started
+
+  storybook:
+    build:
+      context: ..
+      dockerfile: packages/ui/Dockerfile
+    ports:
+      - "6006:6006"
+
+  docs-site:
+    build:
+      context: ..
+      dockerfile: docs-site/Dockerfile
+    ports:
+      - "5555:5555"
+
+volumes:
+  roc_postgres_data:

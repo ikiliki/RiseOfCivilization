@@ -1,0 +1,80 @@
+.quickLinks {
+  margin-top: 0.85rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(79, 126, 209, 0.26);
+  background:
+    linear-gradient(135deg, rgba(19, 52, 104, 0.95), rgba(15, 28, 52, 0.98));
+}
+
+.hero h3 {
+  margin: 0.35rem 0 0.3rem;
+  font-size: 1.35rem;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 64ch;
+  color: #d6e3fb;
+}
+
+.eyebrow {
+  display: inline-flex;
+  color: #9ec9ff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.heroPhase {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 220px;
+  align-content: start;
+}
+
+.heroLabel {
+  color: #9db9e9;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.kpis {
+  margin-top: 1rem;
+}
+
+.summaryGrid {
+  margin-top: 1rem;
+}
+
+.sectionBlock {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.blockHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.blockHeader h3,
+.blockHeader p {
+  margin: 0;
+}
+
+.blockHeader p {
+  color: #96b0db;
+}

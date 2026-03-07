@@ -1,0 +1,78 @@
+.roc-inspect-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+}
+
+.roc-inspect-panel {
+  width: min(360px, 90vw);
+  background: #0d1424;
+  border: 1px solid #475b7d;
+  border-radius: 8px;
+  padding: 16px;
+  color: #edf2ff;
+}
+
+.roc-inspect-panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.roc-inspect-loading,
+.roc-inspect-empty {
+  color: #8b9bb5;
+  margin: 12px 0;
+}
+
+.roc-inspect-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roc-inspect-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8f3ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roc-inspect-skin-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.roc-inspect-id {
+  font-size: 0.8rem;
+  color: #8b9bb5;
+}
+
+.roc-inspect-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.roc-inspect-location {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.roc-inspect-location span:first-child {
+  color: #8b9bb5;
+}
+
+.roc-inspect-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

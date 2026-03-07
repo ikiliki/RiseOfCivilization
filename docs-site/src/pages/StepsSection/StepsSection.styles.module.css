@@ -1,0 +1,44 @@
+.cardGrid {
+  margin-top: 0.85rem;
+}
+
+.hero {
+  padding: 1rem 1.05rem;
+  border-radius: 12px;
+  border: 1px solid rgba(77, 121, 200, 0.22);
+  background:
+    linear-gradient(180deg, rgba(18, 31, 60, 0.96), rgba(12, 21, 42, 0.96));
+}
+
+.hero h3,
+.hero p {
+  margin: 0;
+}
+
+.hero p {
+  margin-top: 0.35rem;
+  color: #c3d6f6;
+}
+
+.phaseBoard {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.boardHeader h3,
+.boardHeader p {
+  margin: 0;
+}
+
+.boardHeader p {
+  color: #96b0db;
+}

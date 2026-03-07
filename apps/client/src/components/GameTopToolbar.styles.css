@@ -1,0 +1,36 @@
+.game-top-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #43597a;
+  background: rgba(12, 20, 34, 0.92);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.game-top-toolbar-credits {
+  color: #8fe3a8;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.game-top-toolbar button {
+  border: 1px solid #4e678d;
+  background: #1a2940;
+  color: #dbe9ff;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.game-top-toolbar button:hover {
+  background: #213453;
+}
+

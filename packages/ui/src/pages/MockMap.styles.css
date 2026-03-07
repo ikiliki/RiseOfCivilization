@@ -1,0 +1,30 @@
+.roc-mock-map {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #1a3a2e 0%,
+    #2d5a47 25%,
+    #3d7a5c 50%,
+    #2d5a47 75%,
+    #1a3a2e 100%
+  );
+  background-size: 400% 400%;
+  animation: roc-mock-map-shimmer 8s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+}
+
+@keyframes roc-mock-map-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}

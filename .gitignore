@@ -1,0 +1,16 @@
+node_modules
+dist
+storybook-static
+.turbo
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+.env.*.local
+coverage
+apps/**/.env
+apps/**/.env.local
+*.tsbuildinfo
+.cursor/projects
+.idea

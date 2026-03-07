@@ -1,0 +1,44 @@
+.game-items-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-102%, -50%);
+  width: 330px;
+  max-height: 360px;
+  overflow: auto;
+  z-index: 40;
+  border: 1px solid #456186;
+  border-radius: 10px;
+  background: rgba(10, 18, 32, 0.95);
+  color: #e2ecff;
+  padding: 10px;
+}
+
+.game-items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.game-items-header h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.game-items-header button {
+  border: 1px solid #4e678d;
+  background: #16253b;
+  color: #dbe9ff;
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.game-items-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+

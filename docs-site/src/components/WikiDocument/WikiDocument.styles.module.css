@@ -1,0 +1,78 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(72, 118, 193, 0.22);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(18, 30, 57, 0.96), rgba(14, 24, 45, 0.96));
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  background: rgba(19, 92, 195, 0.28);
+  color: #9dccff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0.55rem 0 0.25rem;
+  color: #f1f6ff;
+}
+
+.copy {
+  margin: 0;
+  color: #b9cff2;
+  max-width: 52ch;
+}
+
+.stats {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(3, minmax(84px, 1fr));
+}
+
+.stat {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(73, 102, 160, 0.22);
+  border-radius: 10px;
+  background: rgba(11, 21, 41, 0.86);
+}
+
+.statValue {
+  color: #eff5ff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.statLabel {
+  color: #91acda;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.body {
+  margin-top: 1rem;
+  padding: 1rem 1.05rem;
+  border-radius: 12px;
+  border: 1px solid rgba(70, 102, 160, 0.18);
+  background: rgba(11, 18, 36, 0.8);
+}
+
+@media (max-width: 720px) {
+  .stats {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

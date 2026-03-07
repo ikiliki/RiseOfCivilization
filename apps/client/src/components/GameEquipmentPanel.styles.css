@@ -1,0 +1,61 @@
+.game-equipment-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(2%, -50%);
+  width: 280px;
+  z-index: 40;
+  border: 1px solid #456186;
+  border-radius: 10px;
+  background: rgba(10, 18, 32, 0.95);
+  color: #e2ecff;
+  padding: 10px;
+}
+
+.game-equipment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.game-equipment-header h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.game-equipment-header button {
+  border: 1px solid #4e678d;
+  background: #16253b;
+  color: #dbe9ff;
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.game-equipment-slot {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(91, 120, 160, 0.3);
+  font-size: 12px;
+}
+
+.game-equipment-slot button {
+  border: 1px solid #4e678d;
+  background: #1a2940;
+  color: #dbe9ff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.game-equipment-slot button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+

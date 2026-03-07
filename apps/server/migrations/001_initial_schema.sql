@@ -1,0 +1,43 @@
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  username TEXT NOT NULL UNIQUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS world_metadata (
+  id SERIAL PRIMARY KEY,
+  world_seed TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS player_state (
+  user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  position_x DOUBLE PRECISION NOT NULL DEFAULT 0,
+  position_y DOUBLE PRECISION NOT NULL DEFAULT 0,
+  position_z DOUBLE PRECISION NOT NULL DEFAULT 0,
+  settings_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+  keybindings_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+  currency INTEGER NOT NULL DEFAULT 0,
+  stats_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS discovered_chunks (
+  id BIGSERIAL PRIMARY KEY,
+  chunk_x INTEGER NOT NULL,
+  chunk_y INTEGER NOT NULL,
+  biome TEXT NOT NULL,
+  spawnable BOOLEAN NOT NULL DEFAULT FALSE,
+  discovered BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (chunk_x, chunk_y)
+);
+
+CREATE INDEX IF NOT EXISTS idx_discovered_chunks_spawnable
+  ON discovered_chunks (spawnable, discovered);

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROC Admin Live Users</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #121a2b;
+        --muted: #8ea0c0;
+        --text: #e6eefc;
+        --ok: #4bd37b;
+        --line: #263147;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .badge {
+        color: var(--ok);
+        font-weight: 600;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        padding: 8px 6px;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .empty {
+        color: var(--muted);
+        padding: 10px 0;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      input,
+      button {
+        background: #0f1728;
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 10px;
+      }
+      button {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <h2 style="margin: 0 0 8px 0">Live Users</h2>
+            <div class="meta" id="summary">Loading...</div>
+          </div>
+          <div class="controls">
+            <label class="meta" for="realmInput">Realm</label>
+            <input id="realmInput" value="default" />
+            <button id="refreshBtn">Refresh</button>
+          </div>
+        </div>
+        <div class="meta" style="margin-bottom: 10px">
+          Status: <span id="status" class="badge">Polling every 1s</span>
+        </div>
+        <div id="empty" class="empty" style="display: none">No connected users.</div>
+        <table id="table" style="display: none">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>User ID</th>
+              <th>X</th>
+              <th>Z</th>
+              <th>Dir X</th>
+              <th>Dir Z</th>
+              <th>Last Updated</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="/admin/app.js"></script>
+  </body>
+</html>

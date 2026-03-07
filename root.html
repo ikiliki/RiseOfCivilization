@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROC Dev Links</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2e;
+        --text: #ecf2ff;
+        --muted: #9fb0d3;
+        --line: #2a3652;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: radial-gradient(circle at top, #15213c 0%, #0b1020 55%);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 36px auto;
+        padding: 0 16px;
+      }
+      h1 {
+        margin: 0 0 8px 0;
+        font-size: 28px;
+      }
+      p {
+        color: var(--muted);
+        margin: 0 0 18px 0;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+      a.card {
+        display: block;
+        text-decoration: none;
+        color: var(--text);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+      a.card:hover {
+        transform: translateY(-1px);
+      }
+      .name {
+        font-weight: 700;
+      }
+      .url {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Rise Of Civilization - Dev Links</h1>
+      <p>Open these after <code>docker compose up</code> / <code>pnpm docker:up</code>.</p>
+      <section class="grid">
+        <a class="card" id="adminLink" href="http://localhost:4001/admin">
+          <div class="name">Admin Dashboard (live players)</div>
+          <div class="url" id="adminUrl">http://localhost:4001/admin</div>
+        </a>
+        <a class="card" id="swaggerLink" href="http://localhost:4001/swagger" target="_blank" rel="noreferrer">
+          <div class="name">Swagger UI (server API)</div>
+          <div class="url" id="swaggerUrl">http://localhost:4001/swagger</div>
+        </a>
+        <a class="card" href="http://localhost:5175" target="_blank" rel="noreferrer">
+          <div class="name">Client App (Docker mode)</div>
+          <div class="url">http://localhost:5175</div>
+        </a>
+        <a class="card" href="http://localhost:5174" target="_blank" rel="noreferrer">
+          <div class="name">Client App (Local mode)</div>
+          <div class="url">http://localhost:5174</div>
+        </a>
+        <a class="card" href="http://localhost:6006" target="_blank" rel="noreferrer">
+          <div class="name">Storybook</div>
+          <div class="url">http://localhost:6006</div>
+        </a>
+        <a class="card" href="http://localhost:5555" target="_blank" rel="noreferrer">
+          <div class="name">Docs Site</div>
+          <div class="url">http://localhost:5555</div>
+        </a>
+        <a class="card" href="http://localhost:8080" target="_blank" rel="noreferrer">
+          <div class="name">Adminer (Postgres UI)</div>
+          <div class="url">http://localhost:8080</div>
+        </a>
+        <a class="card" href="http://localhost:8081" target="_blank" rel="noreferrer">
+          <div class="name">Redis UI (Redis Commander)</div>
+          <div class="url">http://localhost:8081</div>
+        </a>
+      </section>
+      <div class="note">Server root now acts as a dev portal. For Docker server use <code>http://localhost:4001/</code>.</div>
+    </main>
+    <script>
+      (function () {
+        var base =
+          window.location.protocol === 'http:' || window.location.protocol === 'https:'
+            ? window.location.origin
+            : 'http://localhost:4001';
+        var adminHref = base + '/admin';
+        var swaggerHref = base + '/swagger';
+        var adminLink = document.getElementById('adminLink');
+        var swaggerLink = document.getElementById('swaggerLink');
+        var adminUrl = document.getElementById('adminUrl');
+        var swaggerUrl = document.getElementById('swaggerUrl');
+        if (adminLink) adminLink.href = adminHref;
+        if (swaggerLink) swaggerLink.href = swaggerHref;
+        if (adminUrl) adminUrl.textContent = adminHref;
+        if (swaggerUrl) swaggerUrl.textContent = swaggerHref;
+      })();
+    </script>
+  </body>
+</html>

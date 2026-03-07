@@ -1,0 +1,50 @@
+{
+  "name": "rise-of-civilization",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "docs-site"
+  ],
+  "packageManager": "pnpm@10.6.1",
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "start": "pnpm run start:docker",
+    "start:local": "pnpm --filter @roc/server --filter @roc/client run start:local",
+    "start:docker": "pnpm --filter @roc/server --filter @roc/client run start:docker",
+    "start:local:server": "pnpm --filter @roc/server run start:local",
+    "start:local:client": "pnpm --filter @roc/client run start:local",
+    "start:docker:server": "pnpm --filter @roc/server run start:docker",
+    "start:docker:client": "pnpm --filter @roc/client run start:docker",
+    "start:server": "pnpm --filter @roc/server run start",
+    "start:client": "pnpm --filter @roc/client run start",
+    "dev:debug:server": "pnpm --filter @roc/server run start:local",
+    "dev:debug:client": "pnpm --filter @roc/client run start:local",
+    "build": "pnpm -r run build",
+    "build:reset": "pnpm build && pnpm docker:reset",
+    "db:create": "docker compose -f docker/compose.yml exec postgres psql -U postgres -c \"CREATE DATABASE roc_scania;\" -c \"CREATE DATABASE roc_bera;\"",
+    "docker:reset": "docker compose -f docker/compose.yml down -v && docker compose -f docker/compose.yml up -d --build",
+    "docker:reset:client": "docker compose -f docker/compose.yml up -d --build client",
+    "docker:down": "docker compose -f docker/compose.yml down -v",
+    "docker:up": "docker compose -f docker/compose.yml up -d --build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "storybook": "pnpm --filter @roc/ui run storybook",
+    "docs:sync": "node docs-site/sync-docs.mjs",
+    "docs:dev": "pnpm --filter @roc/docs-site run dev",
+    "docs:build": "pnpm --filter @roc/docs-site run build",
+    "docs:storybook": "pnpm --filter @roc/docs-site run storybook"
+  },
+  "devDependencies": {
+    "@types/node": "^24.4.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
