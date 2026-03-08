@@ -13,7 +13,7 @@ Active for ongoing UI workflow (MVP complete, multiplayer tooling active).
 - `docs/design/game-design-brief.md`
 - `docs/mvp/mvp-scope.md`
 - `docs/architecture/technical-architecture.md`
-- `.cursor/rules/RULES.md`
+- `docs/project-rules.md`
 
 ## What Belongs in Storybook
 - HUD shell components (top bar, status panel, utility controls).
@@ -22,7 +22,7 @@ Active for ongoing UI workflow (MVP complete, multiplayer tooling active).
 - Buttons, toggles, sliders, selects, tabs.
 - Notification/toast and dialog patterns.
 - Data display widgets (stats, currency placeholders, coordinates readout).
-- Phase 2 inspect/profile panel UI components for player presence workflows.
+- Feature 1.1 inspect/profile panel UI components for player presence workflows.
 
 ## What Does Not Belong in Storybook
 - Full world rendering loop.

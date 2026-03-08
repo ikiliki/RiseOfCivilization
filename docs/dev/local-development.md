@@ -1,7 +1,7 @@
 # Local Development
 
 ## Purpose
-Define repeatable local development setup and operational conventions for the MVP stack, completed multiplayer realtime runtime, and Phase 3 hardening work.
+Define repeatable local development setup and operational conventions for the MVP stack, completed multiplayer realtime runtime, and operations hardening work.
 
 ## Status
 Active.
@@ -13,15 +13,18 @@ Active.
 - `docs/mvp/mvp-scope.md`
 - `docs/architecture/technical-architecture.md`
 - `docs/dev/deployment-strategy.md`
-- `.cursor/rules/RULES.md`
+- `docs/project-rules.md`
 
 ## Monorepo Structure
 ```text
 /
   .cursor/
-    PLAN.md
-    rules/
-      RULES.md
+    AGENTS.md
+    agents/              # specialized agents (coder, debugger, planner, etc.)
+    skills/              # reusable skills (add-component, docs-update, etc.)
+  docs/
+    project-rules.md
+  PLAN.md
   apps/
     client/                 # React + Vite + R3F game client
     server/                 # Fastify API

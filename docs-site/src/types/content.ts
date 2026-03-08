@@ -25,11 +25,10 @@ export interface DocsMap {
   storybook: string;
   roadmap: string;
   plan: string;
-  changelog?: string;
 }
 
 export interface PlanStatus {
-  phase: string;
+  feature: string;
   completed: string[];
   current: Array<string | PlanTask>;
   next: Array<string | PlanTask>;
@@ -41,27 +40,31 @@ export interface WorkItem {
   id: string;
   title: string;
   status: WorkItemStatus;
-  phase: string;
+  feature: string;
   subTasks: string[];
 }
 
-export interface PhaseSummary {
+export type FeatureStatus = 'planned' | 'in_progress' | 'done';
+
+export interface FeatureSummary {
   id: string;
   title: string;
-  status: 'new' | 'in_progress' | 'done';
+  status: FeatureStatus;
   summary?: string;
 }
 
+/** @deprecated Use FeatureSummary */
+export type PhaseSummary = FeatureSummary;
+
 export interface Overview {
   projectSummary: string;
-  currentPhase: string;
+  currentFeature: string;
   lastUpdated: string;
 }
 
 export interface TechSections {
   diagrams: DiagramDefinition[];
   architecture: string;
-  technicalSolutions: string;
   tools: string;
   db: string;
   server: string;
@@ -77,7 +80,7 @@ export interface DocsPortalContent {
   multiSubSteps?: MultiSubStep[];
   overview?: Overview;
   plan?: {
-    phases: PhaseSummary[];
+    features: FeatureSummary[];
     workItems: WorkItem[];
   };
   tech?: TechSections;

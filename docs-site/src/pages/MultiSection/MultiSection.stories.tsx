@@ -11,7 +11,7 @@ const meta = {
     planStatus: mockContent.planStatus,
     roadmapMarkdown: mockContent.docs.roadmap,
     sourceLabel:
-      'PLAN.md + docs/architecture/technical-architecture.md + docs/product/implementation-roadmap.md + docs/changelog-session-summary.md'
+      'PLAN.md + docs/architecture/technical-architecture.md + docs/product/implementation-roadmap.md'
   }
 } satisfies Meta<typeof MultiSection>;
 

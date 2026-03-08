@@ -7,17 +7,20 @@ export interface WorkItem {
   id: string;
   title: string;
   status: WorkItemStatus;
-  phase: string;
+  feature: string;
   subTasks: string[];
 }
 
-export interface PhaseSummary {
+export interface FeatureSummary {
   id: string;
   title: string;
   summary: string;
   status: PhaseState;
   bullets: string[];
 }
+
+/** @deprecated Use FeatureSummary */
+export type PhaseSummary = FeatureSummary;
 
 function slugify(value: string) {
   return value
@@ -37,23 +40,23 @@ function normalizeTask(input: string | PlanTask): PlanTask {
   };
 }
 
-function classifyPhase(title: string, currentPhase: string) {
-  const normalized = `${title} ${currentPhase}`.toLowerCase();
+function classifyFeature(title: string, currentFeature: string) {
+  const normalized = `${title} ${currentFeature}`.toLowerCase();
 
   if (
-    /phase 3|operations|hardening|runbook|observability|integration test|contract test|docs portal|quality|debug/i.test(
+    /operations|hardening|runbook|observability|integration test|contract test|docs portal|documentation hub|quality|debug/i.test(
       normalized
     )
   ) {
-    return 'Phase 3';
+    return '1.3';
   }
 
-  if (/phase 2\.5|redis|stateless|pub\/sub|fanout|live-player|admin/i.test(normalized)) {
-    return 'Phase 2.5';
+  if (/redis|stateless|pub\/sub|fanout|live-player|admin/i.test(normalized)) {
+    return '1.2';
   }
 
-  if (/phase 2|multiplayer|presence|websocket|inspect|remote player/i.test(normalized)) {
-    return 'Phase 2';
+  if (/multiplayer|presence|websocket|inspect|remote player/i.test(normalized)) {
+    return '1.1';
   }
 
   if (
@@ -61,18 +64,19 @@ function classifyPhase(title: string, currentPhase: string) {
       normalized
     )
   ) {
-    return 'MVP';
+    return '1';
   }
 
-  return 'General';
+  return '1.3';
 }
 
 export function normalizeWorkItems(planStatus: PlanStatus): WorkItem[] {
+  const currentFeature = (planStatus as { feature?: string }).feature ?? (planStatus as { phase?: string }).phase ?? '';
   const completed = planStatus.completed.map((title) => ({
     id: `done-${slugify(title)}`,
     title,
     status: 'done' as const,
-    phase: classifyPhase(title, planStatus.phase),
+    feature: classifyFeature(title, currentFeature),
     subTasks: []
   }));
 
@@ -82,7 +86,7 @@ export function normalizeWorkItems(planStatus: PlanStatus): WorkItem[] {
       id: `current-${slugify(task.title)}`,
       title: task.title,
       status: 'in_progress' as const,
-      phase: classifyPhase(task.title, planStatus.phase),
+      feature: classifyFeature(task.title, currentFeature),
       subTasks: task.subTasks ?? []
     };
   });
@@ -93,7 +97,7 @@ export function normalizeWorkItems(planStatus: PlanStatus): WorkItem[] {
       id: `next-${slugify(task.title)}`,
       title: task.title,
       status: 'new' as const,
-      phase: classifyPhase(task.title, planStatus.phase),
+      feature: classifyFeature(task.title, currentFeature),
       subTasks: task.subTasks ?? []
     };
   });
@@ -101,34 +105,32 @@ export function normalizeWorkItems(planStatus: PlanStatus): WorkItem[] {
   return [...completed, ...current, ...next];
 }
 
-export function extractRoadmapPhases(roadmapMarkdown: string, currentPhase: string): PhaseSummary[] {
+export function extractRoadmapFeatures(roadmapMarkdown: string, currentFeature: string): FeatureSummary[] {
   const withSentinel = `${roadmapMarkdown}\n### `;
-  const headingRegex = /^###\s+(Milestone\s+\d+:\s+.+?)$/gm;
+  const headingRegex = /^###\s+Feature\s+([\d.]+):\s+(.+?)(?:\s+\((Complete|Current)\))?\s*$/gm;
   const matches = [...withSentinel.matchAll(headingRegex)];
 
   return matches.map((match, index) => {
-    const rawTitle = match[1].trim();
+    const id = match[1].trim();
+    const rawTitle = match[2].trim();
+    const suffix = (match[3] || '').toLowerCase();
     const start = match.index ?? 0;
     const end = matches[index + 1]?.index ?? withSentinel.length;
     const section = withSentinel.slice(start, end);
     const bullets = [...section.matchAll(/^- (.+)$/gm)].map((item) => item[1].trim());
-    const summary = bullets[0] ?? 'Roadmap milestone.';
-    const normalizedTitle = rawTitle.toLowerCase();
-    const normalizedCurrentPhase = currentPhase.toLowerCase();
+    const summary = bullets[0] ?? 'Roadmap feature.';
+    const normalizedCurrentFeature = currentFeature.toLowerCase();
 
     let status: PhaseState = 'planned';
-    if (normalizedTitle.includes('(complete)')) {
+    if (suffix === 'complete') {
       status = 'done';
-    } else if (
-      normalizedTitle.includes('(current)') ||
-      normalizedTitle.includes(normalizedCurrentPhase)
-    ) {
+    } else if (suffix === 'current' || normalizedCurrentFeature.includes(id) || normalizedCurrentFeature.includes(rawTitle.toLowerCase())) {
       status = 'active';
     }
 
     return {
-      id: slugify(rawTitle),
-      title: rawTitle.replace(/\s+\((Complete|Current)\)$/i, ''),
+      id,
+      title: `Feature ${id}: ${rawTitle}`,
       summary,
       status,
       bullets
@@ -136,21 +138,21 @@ export function extractRoadmapPhases(roadmapMarkdown: string, currentPhase: stri
   });
 }
 
-export function getPhaseOptions(
+export function getFeatureOptions(
   items: WorkItem[],
-  phases: Array<{ title: string }>
+  features: Array<{ title: string }>
 ): string[] {
-  return [...new Set([...phases.map((p) => p.title), ...items.map((item) => item.phase)])];
+  return [...new Set([...features.map((p) => p.title), ...items.map((item) => item.feature)])];
 }
 
 export function filterWorkItems(
   items: WorkItem[],
   statusFilter: 'all' | WorkItemStatus,
-  phaseFilter: string
+  featureFilter: string
 ): WorkItem[] {
   return items.filter((item) => {
     const statusMatches = statusFilter === 'all' || item.status === statusFilter;
-    const phaseMatches = phaseFilter === 'all' || item.phase === phaseFilter;
-    return statusMatches && phaseMatches;
+    const featureMatches = featureFilter === 'all' || item.feature === featureFilter;
+    return statusMatches && featureMatches;
   });
 }

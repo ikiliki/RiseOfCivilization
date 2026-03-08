@@ -80,7 +80,7 @@ Authoritative and active.
 - Use Docker and Docker Compose for local reproducibility.
 - Use Storybook for reusable UI components.
 - Use ESLint, Prettier, and Vitest from the start.
-- After making changes in this repository, run `pnpm docker:reset` unless the user explicitly says not to.
+- **After every change**, run `pnpm docker:reset`. Mandatory for all agents (including /coder). Only skip if the user explicitly says "don't reset Docker" or "skip docker reset".
 
 ## Coding Principles
 - TypeScript-first with strict typing.
@@ -103,7 +103,7 @@ Authoritative and active.
 ## Documentation Workflow
 - Treat docs in `docs/` and `.cursor/` as source-of-truth artifacts.
 - Before major implementation, read:
-  1. `.cursor/rules/RULES.md`
+  1. `docs/project-rules.md`
   2. `PLAN.md`
   3. Relevant docs in `docs/`
 - When decisions change, update docs first or in the same task.
@@ -134,9 +134,15 @@ When uncertain, choose the option that:
 - remains testable and debuggable,
 - preserves expansion paths.
 
+## Agent and Skills Configuration
+- `.cursor/AGENTS.md` – orientation for agents; points to this document.
+- `.cursor/agents/` – specialized agents (coder, debugger, planner, product, etc.).
+- `.cursor/skills/` – reusable skills (add-component, docs-update, validation, etc.).
+- Rules remain in `docs/project-rules.md`; agents and skills reference them.
+
 ## Required Living Documents
 - `PLAN.md`
-- `.cursor/rules/AGENTS.md`
+- `.cursor/AGENTS.md`
 - `docs/README.md`
 - `docs/mvp/mvp-scope.md`
 - `docs/design/game-design-brief.md`

@@ -13,7 +13,7 @@ Active strategy for post-MVP multiplayer and operations hardening.
 - `docs/architecture/technical-architecture.md`
 - `docs/mvp/mvp-scope.md`
 - `docs/product/implementation-roadmap.md`
-- `.cursor/rules/RULES.md`
+- `docs/project-rules.md`
 
 ## Objective
 Use a deployment path that is stable, inexpensive, and maintainable by one developer while keeping a clear upgrade path for growth.

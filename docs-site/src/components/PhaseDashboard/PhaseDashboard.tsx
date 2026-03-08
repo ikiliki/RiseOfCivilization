@@ -7,7 +7,7 @@ interface PhaseDashboardProps {
 
 export function PhaseDashboard({ phases }: PhaseDashboardProps) {
   if (!phases.length) {
-    return <p>No roadmap phases available.</p>;
+    return <p>No roadmap features available.</p>;
   }
 
   return (

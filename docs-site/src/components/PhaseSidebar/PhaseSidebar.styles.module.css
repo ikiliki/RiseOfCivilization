@@ -1,0 +1,92 @@
+.sidebar {
+  min-width: 220px;
+  max-width: 280px;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(17, 29, 54, 0.5);
+  border: 1px solid rgba(53, 87, 143, 0.25);
+}
+
+.heading {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #99baf4;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+}
+
+.option:hover {
+  color: var(--text);
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(99, 179, 255, 0.2);
+}
+
+.option.selected {
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.18);
+  border-color: rgba(99, 179, 255, 0.4);
+}
+
+.option.current {
+  border-left: 3px solid rgba(99, 179, 255, 0.6);
+}
+
+.phaseTitle {
+  line-height: 1.35;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 999px;
+}
+
+.planned {
+  background: rgba(124, 90, 12, 0.26);
+  color: #fde68a;
+}
+
+.in_progress {
+  background: rgba(18, 89, 174, 0.28);
+  color: #93c5fd;
+}
+
+.done {
+  background: rgba(21, 86, 48, 0.26);
+  color: #86efac;
+}
+
+.empty {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #8ea8d5;
+}

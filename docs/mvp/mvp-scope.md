@@ -4,7 +4,7 @@
 Define the smallest believable playable version of Rise Of Civilization that validates core game feel and technical foundation without introducing post-MVP systems.
 
 ## Status
-MVP baseline complete; still authoritative for MVP boundaries while Phase 3 operations/hardening is in progress.
+MVP baseline complete; still authoritative for MVP boundaries while operations hardening is in progress.
 
 ## Last Updated
 2026-03-06
@@ -13,7 +13,7 @@ MVP baseline complete; still authoritative for MVP boundaries while Phase 3 oper
 - `docs/design/game-design-brief.md`
 - `docs/architecture/technical-architecture.md`
 - `docs/product/implementation-roadmap.md`
-- `.cursor/rules/RULES.md`
+- `docs/project-rules.md`
 
 ## MVP Definition
 The MVP is a single-player browser experience where the player logs in, enters one shared persistent world, spawns in a discovered spawnable area, explores deterministic chunk-based terrain with visible biome transitions, and resumes from persisted state after reload.

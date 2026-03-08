@@ -1,13 +1,13 @@
 # Implementation Roadmap
 
 ## Purpose
-Define milestone-based implementation sequencing from documentation baseline to first playable completion.
+Define feature-based implementation sequencing from documentation baseline to first playable completion.
 
 ## Status
-Active roadmap with MVP + multiplayer realtime foundations complete; focus is now Phase 3 operations and hardening.
+Active roadmap with MVP + multiplayer + Redis + documentation hub complete; focus is operations hardening.
 
 ## Last Updated
-2026-03-06
+2026-03-08
 
 ## Related Documents
 - `docs/mvp/mvp-scope.md`
@@ -28,63 +28,34 @@ Build only what is required to reach first playable quickly and cleanly, then it
 - MVP spawn choice is random among valid discovered locations.
 - Advanced spawn policy (homes, cities, spawn zones) is deferred.
 
-## Milestones
+## Features
 
-### Milestone 0: Documentation Foundation (Complete)
-- MVP scope and non-goals documented.
-- Architecture and diagrams documented.
-- Dev workflow, deployment, and Storybook strategy documented.
+### Feature 1: MVP (Complete)
+- First playable: world, chunk, spawn, save/load, HUD, settings, keybindings.
+- Single-player login flow (dev-friendly, no third-party OAuth).
+- One shared world for all players, identified by a global world seed.
+- Player spawn into deterministic seeded terrain that is generated lazily on first discovery/request.
+- Top-down movement with camera follow.
+- Chunk-based procedural world generation.
+- Three biome foundations: grassland, desert, ice.
+- Visible biome transitions.
+- Persistence of discovered/generated chunks as shared world records.
+- New-player spawn selection only from already discovered spawnable chunks.
+- Save/load of player position and selected settings.
+- Polished HUD shell and settings modal.
+- Keyboard rebinding for core movement actions.
+- Backend API + PostgreSQL persistence.
+- Local Docker Compose development setup.
+- Storybook for reusable HUD/app UI components.
 
-### Milestone 1: Monorepo and Tooling Scaffold
-- Create workspace structure (`apps`, `packages`, `docker`, `docs`).
-- Configure package manager workspaces and shared TypeScript config.
-- Set up linting, formatting, basic test harness.
-- Set up Docker Compose for client/server/postgres.
-
-### Milestone 2: Backend Core (Fastify + Postgres)
-- Health endpoint and baseline API structure.
-- MVP auth endpoint (dev-friendly).
-- Player state read/write endpoints.
-- DB schema + migrations for user/player settings/save state.
-- Shared world metadata schema (single global world seed).
-- Discovered/generated chunk persistence schema and repository layer.
-- New-player spawn selection endpoint from discovered spawnable records.
-
-### Milestone 3: Frontend Core (R3F + HUD Shell)
-- Client app bootstrap with canvas + UI layer separation.
-- Login flow and session bootstrap.
-- Spawn bootstrap flow that requests server-approved discovered-area spawn.
-- Top-down camera + movement controls.
-- HUD shell with settings modal entry points.
-
-### Milestone 4: World Generation and Chunk Streaming
-- Implement deterministic chunk generation in `world-engine` using shared world seed + coordinates.
-- Add biome model: grassland/desert/ice.
-- Add visible transition logic.
-- Chunk load/unload around player with tunable radius.
-- Lazy generation only on first discovery/request of unexplored chunks.
-- Persist generated/discovered chunk records to shared world state.
-
-### Milestone 5: Save/Load + Settings + Keybinding
-- Persist player position/settings/keybindings via API.
-- Autosave/manual save strategy.
-- Keybinding remap UX with conflict handling.
-- Reload resilience test: resume from latest saved state.
-
-### Milestone 6: First Playable Stabilization
-- Performance pass (chunk churn, render budget, memory behavior).
-- Bug fixes and UX polish for login/settings/HUD.
-- Minimal smoke tests and regression checks.
-- Mark first playable complete.
-
-### Milestone 7: Phase 2 Multiplayer Foundation (Complete)
+### Feature 1.1: Multiplayer infra (Complete)
 - WebSocket real-time layer via @fastify/websocket.
 - In-memory presence store; nearby-player broadcast only.
 - Client: connect, send position, receive presence, render remote players.
 - Click-to-inspect: open profile panel with basic info.
 - REST inspect endpoint; PlayerInspectPanel UI component.
 
-### Milestone 8: Phase 2.5 Redis Realtime Foundation (Complete)
+### Feature 1.2: Redis infra (Complete)
 - Move from in-memory presence assumptions to stateless WebSocket/API gateway instances.
 - Introduce Redis distributed cache + pub/sub for live presence synchronization across instances.
 - Add server-scoped live-player listing API for operations and diagnostics.
@@ -92,11 +63,13 @@ Build only what is required to reach first playable quickly and cleanly, then it
 - Validate local/dev runtime with Redis included in compose and debug workflows.
 - Ship baseline admin operations UI and remove-user workflow on top of live-player APIs.
 
-### Milestone 9: Phase 3 Operations UI and Hardening (Current)
-- Expand integration and contract test coverage for realtime and admin endpoints.
-- Improve operations runbooks and debugging workflows for Redis/presence/socket events.
-- Simplify documentation portal UX to a phase/task board optimized for execution visibility.
-- Continue gameplay quality passes while preserving stateless realtime guarantees.
+### Feature 1.3: Documentation hub (Complete)
+- Internal docs platform with features visibility.
+- Hub as default tab (Hub | Home | Plan | Tech).
+- Feature sidebar with feature filter.
+- FeaturesByStatus (Ahead | In Progress | Done).
+- WorkItemCard with expandable sub-tasks.
+- Execution visibility from content.generated.js.
 
 ## Suggested Build Order
 1. Workspace + local infra
@@ -104,10 +77,10 @@ Build only what is required to reach first playable quickly and cleanly, then it
 3. Frontend shell, login, and discovered-area spawn bootstrap
 4. Deterministic world generation + biomes + lazy discovery generation
 5. Save/load and settings/keybindings
-6. Phase 2 multiplayer baseline (WebSocket + inspect)
-7. Phase 2.5 stateless realtime + Redis foundation + live-player API
-8. Phase 3 operations hardening and test coverage
-9. Stabilization and docs sync
+6. Feature 1.1: Multiplayer baseline (WebSocket + inspect)
+7. Feature 1.2: Stateless realtime + Redis foundation + live-player API
+8. Feature 1.3: Documentation hub
+9. Operations hardening and test coverage
 
 ## Dependency Map
 - Frontend login depends on backend auth endpoint.
@@ -129,8 +102,7 @@ Build only what is required to reach first playable quickly and cleanly, then it
   - `feat/settings-keybind-persistence`
 - Keep PRs reviewable even if self-reviewed later.
 
-## Deferred Milestones (Explicit)
-- Phase 3 admin/operations UI for live-player monitoring and controls.
+## Deferred (Explicit)
 - Full server-authoritative movement validation.
 - Advanced spawn systems (homes, towns, fixed spawn points, safe zones, faction-based spawn logic).
 - Combat/crafting/NPC/economy systems.
@@ -138,7 +110,7 @@ Build only what is required to reach first playable quickly and cleanly, then it
 - Advanced terrain editing/simulation depth.
 - Production-hard auth and account system.
 
-## Done Definition per Milestone
+## Done Definition per Feature
 - Feature works locally from clean startup.
 - Basic tests added or updated.
 - Docs updated if decisions changed.

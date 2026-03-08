@@ -50,7 +50,12 @@ export function App() {
     );
   }
 
-  const currentPhase = content.overview?.currentPhase ?? content.planStatus?.phase ?? 'Unknown';
+  const currentFeature =
+    (content.overview as { currentFeature?: string })?.currentFeature ??
+    (content.overview as { currentPhase?: string })?.currentPhase ??
+    (content.planStatus as { feature?: string })?.feature ??
+    (content.planStatus as { phase?: string })?.phase ??
+    'Unknown';
 
   return (
     <>
@@ -65,7 +70,7 @@ export function App() {
         </div>
         <div className="topbar-meta">
           <span className="badge">Internal</span>
-          <span className="badge">{currentPhase}</span>
+          <span className="badge">{currentFeature}</span>
         </div>
         <div className="scroll-progress">
           <span id="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />

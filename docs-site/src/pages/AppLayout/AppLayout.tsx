@@ -1,35 +1,27 @@
 import { useState } from 'react';
-import { HomeView } from '../HomeView/HomeView';
-import { PlanView } from '../PlanView/PlanView';
+import { HubView } from '../HubView/HubView';
 import { TechView } from '../TechView/TechView';
 import type { DocsPortalContent } from '../../types/content';
 import styles from './AppLayout.styles.module.css';
 
-export type MainTab = 'home' | 'plan' | 'tech';
+export type MainTab = 'hub' | 'tech';
 
 interface AppLayoutProps {
   content: DocsPortalContent;
 }
 
 export function AppLayout({ content }: AppLayoutProps) {
-  const [mainTab, setMainTab] = useState<MainTab>('home');
+  const [mainTab, setMainTab] = useState<MainTab>('hub');
 
   return (
     <div className={styles.layoutInner}>
       <nav className={styles.tabs} aria-label="Main navigation">
         <button
           type="button"
-          className={`${styles.tab} ${mainTab === 'home' ? styles.active : ''}`}
-          onClick={() => setMainTab('home')}
+          className={`${styles.tab} ${mainTab === 'hub' ? styles.active : ''}`}
+          onClick={() => setMainTab('hub')}
         >
-          Home
-        </button>
-        <button
-          type="button"
-          className={`${styles.tab} ${mainTab === 'plan' ? styles.active : ''}`}
-          onClick={() => setMainTab('plan')}
-        >
-          Plan
+          Hub
         </button>
         <button
           type="button"
@@ -41,8 +33,7 @@ export function AppLayout({ content }: AppLayoutProps) {
       </nav>
 
       <main className={styles.content}>
-        {mainTab === 'home' && <HomeView content={content} />}
-        {mainTab === 'plan' && <PlanView content={content} />}
+        {mainTab === 'hub' && <HubView content={content} />}
         {mainTab === 'tech' && <TechView content={content} />}
       </main>
     </div>

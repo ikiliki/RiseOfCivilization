@@ -4,8 +4,8 @@ import { StatusFilters } from '../../components/StatusFilters/StatusFilters';
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent';
 import {
   normalizeWorkItems,
-  extractRoadmapPhases,
-  getPhaseOptions,
+  extractRoadmapFeatures,
+  getFeatureOptions,
   filterWorkItems,
   type WorkItemStatus
 } from '../../lib/dashboard';
@@ -21,7 +21,7 @@ interface PlanViewProps {
 export function PlanView({ content }: PlanViewProps) {
   const [subTab, setSubTab] = useState<PlanSubTab>('tasks');
   const [statusFilter, setStatusFilter] = useState<'all' | WorkItemStatus>('all');
-  const [phaseFilter, setPhaseFilter] = useState('all');
+  const [featureFilter, setFeatureFilter] = useState('all');
 
   const workItems = useMemo(() => {
     if (content.plan?.workItems?.length) {
@@ -33,27 +33,32 @@ export function PlanView({ content }: PlanViewProps) {
     return [];
   }, [content.plan?.workItems, content.planStatus]);
 
-  const phases = useMemo(() => {
-    if (content.plan?.phases?.length) {
-      return content.plan.phases;
+  const currentFeatureLabel =
+    (content.planStatus as { feature?: string })?.feature ??
+    (content.planStatus as { phase?: string })?.phase ??
+    (content.overview as { currentFeature?: string })?.currentFeature ??
+    (content.overview as { currentPhase?: string })?.currentPhase ??
+    'Unknown';
+
+  const features = useMemo(() => {
+    if ((content.plan as { features?: unknown[] })?.features?.length) {
+      return (content.plan as { features: { id: string; title: string; summary?: string }[] }).features;
     }
-    if (content.docs?.roadmap && content.planStatus?.phase) {
-      return extractRoadmapPhases(content.docs.roadmap, content.planStatus.phase);
+    if (content.docs?.roadmap && currentFeatureLabel) {
+      return extractRoadmapFeatures(content.docs.roadmap, currentFeatureLabel);
     }
     return [];
-  }, [content.plan?.phases, content.docs?.roadmap, content.planStatus?.phase]);
+  }, [(content.plan as { features?: unknown[] })?.features, content.docs?.roadmap, currentFeatureLabel]);
 
-  const phaseOptions = useMemo(
-    () => getPhaseOptions(workItems, phases.map((p) => ({ title: p.title }))),
-    [workItems, phases]
+  const featureOptions = useMemo(
+    () => getFeatureOptions(workItems, features.map((f) => ({ title: f.title }))),
+    [workItems, features]
   );
 
   const filteredItems = useMemo(
-    () => filterWorkItems(workItems, statusFilter, phaseFilter),
-    [workItems, statusFilter, phaseFilter]
+    () => filterWorkItems(workItems, statusFilter, featureFilter),
+    [workItems, statusFilter, featureFilter]
   );
-
-  const currentPhase = content.overview?.currentPhase ?? content.planStatus?.phase ?? 'Unknown';
 
   const subTabs: Array<{ id: PlanSubTab; label: string }> = [
     { id: 'tasks', label: 'Tasks' },
@@ -81,12 +86,12 @@ export function PlanView({ content }: PlanViewProps) {
       {subTab === 'tasks' && (
         <div className={styles.tasksView}>
           <StatusFilters
-            phaseFilter={phaseFilter}
-            phaseOptions={phaseOptions}
+            phaseFilter={featureFilter}
+            phaseOptions={featureOptions}
             statusFilter={statusFilter}
             totalCount={workItems.length}
             visibleCount={filteredItems.length}
-            onPhaseChange={setPhaseFilter}
+            onPhaseChange={setFeatureFilter}
             onStatusChange={(v) => setStatusFilter(v === 'all' ? 'all' : v)}
           />
           <div className={styles.taskList}>
@@ -97,7 +102,7 @@ export function PlanView({ content }: PlanViewProps) {
                     <strong>{item.title}</strong>
                     <span className={`${styles.badge} ${styles[item.status]}`}>{item.status.replace('_', ' ')}</span>
                   </div>
-                  <span className={styles.phaseBadge}>{item.phase}</span>
+                  <span className={styles.phaseBadge}>{(item as { feature?: string }).feature ?? (item as { phase?: string }).phase}</span>
                   {item.subTasks.length ? (
                     <ul className={styles.subTasks}>
                       {item.subTasks.map((st) => (
@@ -115,23 +120,23 @@ export function PlanView({ content }: PlanViewProps) {
       )}
 
       {subTab === 'board' && (
-        <WorkItemsBoard items={workItems} pbiTitle={currentPhase} />
+        <WorkItemsBoard items={workItems} pbiTitle={currentFeatureLabel} />
       )}
 
       {subTab === 'more' && (
         <div className={styles.moreView}>
-          <h3>Roadmap Milestones</h3>
-          {phases.length ? (
+          <h3>Roadmap Features</h3>
+          {features.length ? (
             <ul className="list">
-              {phases.map((p) => (
-                <li key={p.id}>
-                  <strong>{p.title}</strong>
-                  {p.summary ? ` — ${p.summary}` : ''}
+              {features.map((f) => (
+                <li key={f.id}>
+                  <strong>{f.title}</strong>
+                  {f.summary ? ` — ${f.summary}` : ''}
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No roadmap phases available.</p>
+            <p>No roadmap features available.</p>
           )}
           {content.docs?.roadmap && (
             <>

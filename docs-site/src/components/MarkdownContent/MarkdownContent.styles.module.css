@@ -1,3 +1,19 @@
 .markdownContent {
-  margin-top: 0.35rem;
+  margin-top: 0.5rem;
+  line-height: 1.65;
+}
+
+.markdownContent h1,
+.markdownContent h2,
+.markdownContent h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdownContent p {
+  margin-bottom: 0.75rem;
+}
+
+.markdownContent pre {
+  margin: 0.75rem 0;
 }

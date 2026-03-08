@@ -3,7 +3,7 @@ import { PhaseDashboard } from '../../components/PhaseDashboard/PhaseDashboard';
 import { SectionShell } from '../../components/SectionShell/SectionShell';
 import { StatusFilters } from '../../components/StatusFilters/StatusFilters';
 import { WorkItemsBoard } from '../../components/WorkItemsBoard/WorkItemsBoard';
-import { extractRoadmapPhases, filterWorkItems, getPhaseOptions, normalizeWorkItems } from '../../lib/dashboard';
+import { extractRoadmapFeatures, filterWorkItems, getFeatureOptions, normalizeWorkItems } from '../../lib/dashboard';
 import type { PlanStatus } from '../../types/content';
 import styles from './HomeSection.styles.module.css';
 
@@ -37,23 +37,23 @@ export function HomeSection({
   const [phaseFilter, setPhaseFilter] = useState('all');
 
   const workItems = useMemo(() => normalizeWorkItems(planStatus), [planStatus]);
-  const phaseCards = useMemo(
-    () => extractRoadmapPhases(roadmapMarkdown, phase),
+  const featureCards = useMemo(
+    () => extractRoadmapFeatures(roadmapMarkdown, phase),
     [roadmapMarkdown, phase]
   );
   const filteredItems = useMemo(
     () => filterWorkItems(workItems, statusFilter, phaseFilter),
     [workItems, statusFilter, phaseFilter]
   );
-  const phaseOptions = useMemo(
-    () => getPhaseOptions(workItems, phaseCards),
-    [workItems, phaseCards]
+  const featureOptions = useMemo(
+    () => getFeatureOptions(workItems, featureCards),
+    [workItems, featureCards]
   );
   const kpis = [
     { label: 'Completed', value: planStatus.completed.length },
     { label: 'Current Tasks', value: planStatus.current.length },
     { label: 'Next Tasks', value: planStatus.next.length },
-    { label: 'Roadmap Phases', value: phaseCards.length }
+    { label: 'Roadmap Features', value: featureCards.length }
   ];
 
   const cards = [
@@ -78,7 +78,7 @@ export function HomeSection({
           <p>{projectSummary}</p>
         </div>
         <div className={styles.heroPhase}>
-          <span className={styles.heroLabel}>Active Phase</span>
+          <span className={styles.heroLabel}>Active Feature</span>
           <div className="phase">{phase}</div>
         </div>
       </div>
@@ -103,20 +103,20 @@ export function HomeSection({
 
       <div className={styles.sectionBlock}>
         <div className={styles.blockHeader}>
-          <h3>Phase Dashboard</h3>
-          <p>Roadmap milestones rendered as Azure-style phase cards.</p>
+          <h3>Feature Dashboard</h3>
+          <p>Roadmap features rendered as Azure-style cards.</p>
         </div>
-        <PhaseDashboard phases={phaseCards} />
+        <PhaseDashboard phases={featureCards} />
       </div>
 
       <div className={styles.sectionBlock}>
         <div className={styles.blockHeader}>
           <h3>PBI and Tasks</h3>
-          <p>Filter execution work by status and phase while keeping the current PBI visible.</p>
+          <p>Filter execution work by status and feature while keeping the current PBI visible.</p>
         </div>
         <StatusFilters
           phaseFilter={phaseFilter}
-          phaseOptions={phaseOptions}
+          phaseOptions={featureOptions}
           statusFilter={statusFilter}
           totalCount={workItems.length}
           visibleCount={filteredItems.length}

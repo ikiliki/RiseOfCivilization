@@ -13,7 +13,7 @@ Active architecture baseline.
 - `docs/mvp/mvp-scope.md`
 - `docs/architecture/diagrams.md`
 - `docs/product/implementation-roadmap.md`
-- `.cursor/rules/RULES.md`
+- `docs/project-rules.md`
 
 ## Goals
 - Deliver first playable quickly with a maintainable codebase for one senior developer.
@@ -54,7 +54,7 @@ Active architecture baseline.
 ## Player Spawning Rules (Explicit)
 - New players spawn only in discovered spawnable chunks.
 - Spawn selection is random among valid discovered candidates.
-- Advanced spawn logic is deferred to later phases (homes, cities, spawn zones).
+- Advanced spawn logic is deferred (homes, cities, spawn zones).
 
 ## Frontend Responsibilities
 - Handle login UI and lightweight session token storage.
@@ -80,11 +80,11 @@ Active architecture baseline.
 - Expose small API surface; do not absorb simulation authority yet.
 - Persist discovered/generated world chunks and spawnable-discovered location indexes.
 - Resolve new-player spawn location from discovered spawnable records.
-- Phase 2: WebSocket endpoint `/ws` for real-time presence and position sync.
-- Phase 2: REST endpoint `GET /api/player/:userId/inspect` for player profile inspection.
-- Phase 2.5: Stateless WebSocket/API gateway instances (no in-memory shared presence assumptions).
-- Phase 2.5: Redis distributed cache + pub/sub for live presence fanout and cross-instance coordination.
-- Phase 2.5: REST endpoint for listing live players by server (`GET /api/server/live-players`).
+- Feature 1.1: WebSocket endpoint `/ws` for real-time presence and position sync.
+- Feature 1.1: REST endpoint `GET /api/player/:userId/inspect` for player profile inspection.
+- Feature 1.2: Stateless WebSocket/API gateway instances (no in-memory shared presence assumptions).
+- Feature 1.2: Redis distributed cache + pub/sub for live presence fanout and cross-instance coordination.
+- Feature 1.2: REST endpoint for listing live players by server (`GET /api/server/live-players`).
 
 ## World Generation Strategy
 - Deterministic generation from `(worldSeed, chunkX, chunkY)` (or tile coordinates where needed).
@@ -162,14 +162,14 @@ Active architecture baseline.
   - new-player spawn resolution from discovered areas.
 - Rationale: fast iteration and low infra complexity now, while preserving migration path.
 
-## Phase 2 Multiplayer (Implemented Baseline)
+## Feature 1.1 Multiplayer (Implemented Baseline)
 - Transport: `@fastify/websocket` on path `/ws`. Auth via `?token=...` query param.
 - In-memory presence: `connectionId -> { userId, username, position, direction }`.
 - Nearby broadcast: only clients within ~3 chunks receive presence updates.
 - Client sends `position_update` messages; server relays to nearby connections.
 - No persistence of presence; save/load remains REST + PostgreSQL.
 
-## Phase 2.5 Realtime Foundation (Implemented)
+## Feature 1.2 Realtime Foundation (Implemented)
 - Server runtime becomes stateless across horizontally scaled WebSocket/API instances.
 - Redis becomes the realtime coordination layer for:
   - distributed live presence cache (ephemeral state),
@@ -188,7 +188,7 @@ Active architecture baseline.
   - `GET /api/admin/live-users`
   - `POST /api/admin/remove-user`
 
-## Phase 3 Focus (Current)
+## Operations Hardening (Current Focus)
 - Harden cross-instance realtime behavior with stronger integration coverage.
 - Improve operational observability and runbooks for websocket/presence flows.
 - Keep gateway stateless contract intact while improving developer and admin UX.
@@ -217,8 +217,8 @@ Active architecture baseline.
 ## Future Multiplayer Evolution Path
 - Step 1: keep world generation deterministic and shared between client/server packages.
 - Step 2: maintain persistent discovered chunk registry as shared world baseline.
-- Step 3 (Phase 2 done): presence sync and inspect; client-authoritative movement.
-- Step 4 (Phase 2.5): move realtime presence to stateless multi-instance gateway + Redis pub/sub.
+- Step 3 (Feature 1.1 done): presence sync and inspect; client-authoritative movement.
+- Step 4 (Feature 1.2): move realtime presence to stateless multi-instance gateway + Redis pub/sub.
 - Step 5: add authoritative movement validation endpoints/services.
 - Step 6: introduce region/session-based world authority model.
 - Step 7: evolve persistence model for concurrent player and mutable world state.

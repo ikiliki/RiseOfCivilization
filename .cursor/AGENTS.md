@@ -10,7 +10,7 @@ Active.
 2026-03-06
 
 ## Authoritative Rules Location
-All authoritative agent rules live in `.cursor/rules/RULES.md`.
+All authoritative agent rules live in `docs/project-rules.md`.
 
 ## Repository Context
 Rise Of Civilization is currently a planning-and-architecture repository for MVP execution.

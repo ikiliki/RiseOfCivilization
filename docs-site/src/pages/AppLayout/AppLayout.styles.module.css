@@ -1,14 +1,14 @@
 .layoutInner {
-  max-width: 1400px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
 }
 
 .tabs {
   display: flex;
-  gap: 0.25rem;
-  padding: 0.5rem 0 0 0.5rem;
-  border-bottom: 1px solid rgba(53, 87, 143, 0.45);
+  gap: 0;
+  padding: 0 0 0 0.5rem;
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .tab {
@@ -18,20 +18,20 @@
   color: var(--text-dim);
   background: transparent;
   border: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--transition), background var(--transition);
 }
 
 .tab:hover {
   color: var(--text);
-  background: rgba(37, 99, 235, 0.15);
+  background: rgba(48, 54, 61, 0.3);
 }
 
 .tab.active {
   color: var(--accent);
-  background: rgba(17, 29, 54, 0.95);
-  border: 1px solid rgba(53, 87, 143, 0.5);
+  background: var(--bg-soft);
+  border: 1px solid var(--panel-border);
   border-bottom-color: transparent;
   margin-bottom: -1px;
   position: relative;
@@ -41,43 +41,47 @@
 .subTabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.4rem;
   padding: 0.75rem 0;
   margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(53, 87, 143, 0.35);
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .subTab {
-  padding: 0.5rem 0.9rem;
-  font-size: 0.84rem;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-dim);
-  background: rgba(37, 99, 235, 0.06);
+  background: transparent;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: all 0.18s;
+  transition: all var(--transition);
 }
 
 .subTab:hover {
   color: var(--text);
-  background: rgba(37, 99, 235, 0.12);
-  border-color: rgba(99, 179, 255, 0.2);
+  background: rgba(48, 54, 61, 0.4);
+  border-color: var(--panel-border);
 }
 
 .subTab.active {
   color: var(--accent);
-  background: rgba(37, 99, 235, 0.18);
-  border-color: rgba(99, 179, 255, 0.4);
+  background: rgba(88, 166, 255, 0.1);
+  border-color: rgba(88, 166, 255, 0.25);
 }
 
 .content {
-  padding: 1.25rem 0 2rem;
+  padding: 1.5rem 0 2rem;
   min-height: 360px;
-  animation: fadeIn 0.15s ease;
+  animation: fadeIn 0.2s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0.7; }
-  to { opacity: 1; }
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
 }

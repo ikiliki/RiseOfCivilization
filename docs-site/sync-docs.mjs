@@ -6,6 +6,7 @@ const docsSiteRoot = resolve(repoRoot, "docs-site");
 
 const sources = [
   { key: "docsReadme", path: "docs/README.md" },
+  { key: "projectRules", path: "docs/project-rules.md" },
   { key: "mvp", path: "docs/mvp/mvp-scope.md" },
   { key: "design", path: "docs/design/game-design-brief.md" },
   { key: "architecture", path: "docs/architecture/technical-architecture.md" },
@@ -15,7 +16,7 @@ const sources = [
   { key: "storybook", path: "docs/ui/storybook-plan.md" },
   { key: "roadmap", path: "docs/product/implementation-roadmap.md" },
   { key: "plan", path: "PLAN.md" },
-  { key: "changelog", path: "docs/changelog-session-summary.md" },
+  // Feature docs: add as needed, e.g. { key: "featureX", path: "docs/features/feature-x.md" },
 ];
 
 function readText(relativePath) {
@@ -109,31 +110,13 @@ function extractMermaidDiagrams(markdown) {
     });
   }
 
+  // Sort by diagram number ascending (1, 2, 3, ... 10)
+  const diagramNum = (d) => {
+    const m = d.title.match(/Diagram\s+(\d+)/i);
+    return m ? parseInt(m[1], 10) : 999;
+  };
+  diagrams.sort((a, b) => diagramNum(a) - diagramNum(b));
   return diagrams;
-}
-
-/**
- * Extracts top-level sections (## 1. Title, ## 2. Title, etc.) from changelog as multi sub-steps.
- * Returns Array<{ title: string, subItems: string[] }> where subItems are ### headings.
- */
-function extractChangelogMultiSubSteps(markdown) {
-  const withSentinel = (markdown || "") + "\n## ";
-  const sectionRegex = /^##\s+(\d+\.\s+.+?)\s*$/gm;
-  const subRegex = /^###\s+(.+?)\s*$/gm;
-  const sections = [];
-  let match;
-  const titles = [];
-  while ((match = sectionRegex.exec(withSentinel)) !== null) {
-    titles.push({ title: match[1].trim(), index: match.index });
-  }
-  for (let i = 0; i < titles.length; i += 1) {
-    const start = titles[i].index;
-    const end = titles[i + 1]?.index ?? withSentinel.length;
-    const block = withSentinel.slice(start, end);
-    const subItems = [...block.matchAll(subRegex)].map((m) => m[1].trim());
-    sections.push({ title: titles[i].title, subItems });
-  }
-  return sections;
 }
 
 const raw = Object.fromEntries(sources.map((entry) => [entry.key, readText(entry.path)]));
@@ -147,58 +130,79 @@ function slugify(value) {
 
 function extractOverview(raw) {
   const summaryMatch = (raw.docsReadme || "").match(/## Project Summary\s*([\s\S]*?)(?=##\s+|$)/m);
-  const phase =
-    pickSingleBullet(raw.plan, "Current phase") ||
-    pickSingleBullet(raw.plan, "Current Phase");
+  const feature =
+    pickSingleBullet(raw.plan, "Current feature") ||
+    pickSingleBullet(raw.plan, "Current Feature");
   const lastMatch = (raw.plan || "").match(/## Last Updated\s*\n-?\s*(.+?)(?:\n|$)/m);
   return {
     projectSummary: summaryMatch?.[1]?.trim() || "Internal docs portal for Rise Of Civilization.",
-    currentPhase: phase || "Unknown",
+    currentFeature: feature || "Unknown",
     lastUpdated: lastMatch?.[1]?.trim() || new Date().toISOString().slice(0, 10),
   };
 }
 
-function extractPhases(raw) {
-  const phases = [];
+/**
+ * Extracts features from roadmap (Feature 1, 1.1, 1.2, 1.3) and PLAN.md.
+ * Returns Array<{ id: string, title: string, status: string, summary: string }>.
+ */
+function extractFeatures(raw) {
+  const features = [];
   const roadmap = raw.roadmap || "";
   const withSentinel = roadmap + "\n### ";
-  const headingRegex = /^###\s+(Milestone\s+\d+:\s+.+?)$/gm;
+  const headingRegex = /^###\s+Feature\s+([\d.]+):\s+(.+?)(?:\s+\((Complete|Current)\))?\s*$/gm;
   let match;
   const matches = [];
   while ((match = headingRegex.exec(withSentinel)) !== null) {
-    matches.push({ title: match[1].trim(), index: match.index });
+    matches.push({
+      id: match[1].trim(),
+      title: match[2].trim(),
+      suffix: (match[3] || "").toLowerCase(),
+      index: match.index,
+    });
   }
-  const currentPhase =
-    pickSingleBullet(raw.plan, "Current phase") ||
-    pickSingleBullet(raw.plan, "Current Phase");
-  const normalizedCurrent = (currentPhase || "").toLowerCase();
+  const currentFeature =
+    pickSingleBullet(raw.plan, "Current feature") ||
+    pickSingleBullet(raw.plan, "Current Feature");
+  const normalizedCurrent = (currentFeature || "").toLowerCase();
 
   for (let i = 0; i < matches.length; i++) {
-    const rawTitle = matches[i].title;
+    const { id, title, suffix } = matches[i];
     const start = matches[i].index;
     const end = matches[i + 1]?.index ?? withSentinel.length;
     const section = withSentinel.slice(start, end);
     const bullets = [...section.matchAll(/^- (.+)$/gm)].map((m) => m[1].trim());
-    const normalizedTitle = rawTitle.toLowerCase();
     let status = "planned";
-    if (normalizedTitle.includes("(complete)")) status = "done";
-    else if (normalizedTitle.includes("(current)") || normalizedTitle.includes(normalizedCurrent))
+    if (suffix === "complete") status = "done";
+    else if (suffix === "current" || normalizedCurrent.includes(id) || normalizedCurrent.includes(title.toLowerCase()))
       status = "in_progress";
 
-    phases.push({
-      id: slugify(rawTitle),
-      title: rawTitle.replace(/\s+\((Complete|Current)\)$/i, ""),
+    features.push({
+      id,
+      title: `Feature ${id}: ${title}`,
       status,
       summary: bullets[0] || "",
     });
   }
-  return phases;
+  // Sort by feature number ascending: 1, 1.1, 1.2, 1.3
+  const parseId = (fid) => fid.split(".").map(Number);
+  const compare = (a, b) => {
+    const pa = parseId(a.id);
+    const pb = parseId(b.id);
+    for (let j = 0; j < Math.max(pa.length, pb.length); j++) {
+      const va = pa[j] ?? 0;
+      const vb = pb[j] ?? 0;
+      if (va !== vb) return va - vb;
+    }
+    return 0;
+  };
+  features.sort(compare);
+  return features;
 }
 
 function extractWorkItems(raw) {
-  const phase =
-    pickSingleBullet(raw.plan, "Current phase") ||
-    pickSingleBullet(raw.plan, "Current Phase");
+  const currentFeature =
+    pickSingleBullet(raw.plan, "Current feature") ||
+    pickSingleBullet(raw.plan, "Current Feature");
   const completed = pickList(raw.plan, "Done").length
     ? pickList(raw.plan, "Done")
     : pickList(raw.plan, "Completed");
@@ -208,13 +212,15 @@ function extractWorkItems(raw) {
       : pickListWithSubTasks(raw.plan, "In Progress");
   const next = pickListWithSubTasks(raw.plan, "Next");
 
-  function classifyPhase(title) {
-    const n = `${title} ${phase}`.toLowerCase();
-    if (/phase 3|operations|hardening|runbook|observability/i.test(n)) return "Phase 3";
-    if (/phase 2\.5|redis|stateless|pub\/sub|fanout|admin/i.test(n)) return "Phase 2.5";
-    if (/phase 2|multiplayer|presence|websocket|inspect/i.test(n)) return "Phase 2";
-    if (/mvp|first playable|spawn|world|chunk|hud|settings/i.test(n)) return "MVP";
-    return "General";
+  function classifyFeature(title) {
+    const n = title.toLowerCase();
+    if (/mvp|first playable|spawn|world|chunk|hud|settings|bootstrap|frontend|backend core|monorepo|workspace|docker|fastify|postgres|world-engine/i.test(n))
+      return "1";
+    if (/multiplayer|presence|websocket|inspect|remote player/i.test(n)) return "1.1";
+    if (/redis|stateless|pub\/sub|fanout|admin|live-player/i.test(n)) return "1.2";
+    if (/operations|hardening|runbook|observability|docs portal|documentation hub|quality|debug/i.test(n))
+      return "1.3";
+    return "1.3";
   }
 
   const items = [];
@@ -223,7 +229,7 @@ function extractWorkItems(raw) {
       id: `done-${slugify(title)}`,
       title,
       status: "done",
-      phase: classifyPhase(title),
+      feature: classifyFeature(title),
       subTasks: [],
     });
   });
@@ -233,7 +239,7 @@ function extractWorkItems(raw) {
       id: `current-${slugify(task.title)}`,
       title: task.title,
       status: "in_progress",
-      phase: classifyPhase(task.title),
+      feature: classifyFeature(task.title),
       subTasks: task.subTasks || [],
     });
   });
@@ -243,7 +249,7 @@ function extractWorkItems(raw) {
       id: `next-${slugify(task.title)}`,
       title: task.title,
       status: "new",
-      phase: classifyPhase(task.title),
+      feature: classifyFeature(task.title),
       subTasks: task.subTasks || [],
     });
   });
@@ -316,7 +322,6 @@ function extractTechSections(raw) {
 
   return {
     architecture: arch,
-    technicalSolutions: arch + "\n\n---\n\n" + (raw.design || ""),
     tools: toolsSection,
     db: dbSection || "See Architecture for durability boundaries.",
     server: serverSection || "See Architecture for server responsibilities.",
@@ -325,9 +330,9 @@ function extractTechSections(raw) {
 }
 
 const planStatus = {
-  phase:
-    pickSingleBullet(raw.plan, "Current phase") ||
-    pickSingleBullet(raw.plan, "Current Phase"),
+  feature:
+    pickSingleBullet(raw.plan, "Current feature") ||
+    pickSingleBullet(raw.plan, "Current Feature"),
   completed: pickList(raw.plan, "Done").length
     ? pickList(raw.plan, "Done")
     : pickList(raw.plan, "Completed"),
@@ -339,7 +344,7 @@ const planStatus = {
 };
 
 const diagrams = extractMermaidDiagrams(raw.diagramsDoc);
-const multiSubSteps = extractChangelogMultiSubSteps(raw.changelog);
+const multiSubSteps = [];
 
 const multiplayerFlow = readText(resolve(repoRoot, "docs/dev/multiplayer-flow-and-debug.md")).replace(
   /\r\n/g,
@@ -356,7 +361,7 @@ const data = {
   multiSubSteps,
   overview: extractOverview(raw),
   plan: {
-    phases: extractPhases(raw),
+    features: extractFeatures(raw),
     workItems: extractWorkItems(raw),
   },
   tech: {

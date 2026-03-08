@@ -8,7 +8,7 @@ const meta = {
         multiSubSteps: mockContent.multiSubSteps ?? [],
         planStatus: mockContent.planStatus,
         roadmapMarkdown: mockContent.docs.roadmap,
-        sourceLabel: 'PLAN.md + docs/architecture/technical-architecture.md + docs/product/implementation-roadmap.md + docs/changelog-session-summary.md'
+        sourceLabel: 'PLAN.md + docs/architecture/technical-architecture.md + docs/product/implementation-roadmap.md'
     }
 };
 export default meta;

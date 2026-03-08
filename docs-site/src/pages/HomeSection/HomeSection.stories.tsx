@@ -6,7 +6,10 @@ const meta = {
   title: 'Pages/HomeSection',
   component: HomeSection,
   args: {
-    phase: mockContent.planStatus.phase,
+    phase:
+      (mockContent.planStatus as { feature?: string }).feature ??
+      (mockContent.planStatus as { phase?: string }).phase ??
+      'Feature 1.3',
     planStatus: mockContent.planStatus,
     projectSummary:
       'Rise Of Civilization is in active implementation with a shared world and multiplayer foundation work.',

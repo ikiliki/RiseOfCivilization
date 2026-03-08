@@ -18,7 +18,7 @@ export function WorkItemsBoard({ items, pbiTitle }: WorkItemsBoardProps) {
       <article className={styles.pbiCard}>
         <span className={styles.eyebrow}>Current PBI</span>
         <h3>{pbiTitle}</h3>
-        <p>Phase execution is treated as the top-level work item. Tasks below are grouped by status.</p>
+        <p>Feature execution is treated as the top-level work item. Tasks below are grouped by status.</p>
       </article>
 
       <div className={styles.columns}>
@@ -44,7 +44,7 @@ export function WorkItemsBoard({ items, pbiTitle }: WorkItemsBoardProps) {
                       </div>
 
                       <div className={styles.meta}>
-                        <span className={styles.phaseBadge}>{item.phase}</span>
+                        <span className={styles.phaseBadge}>{item.feature}</span>
                         {item.subTasks.length ? (
                           <span className={styles.subTaskCount}>{item.subTasks.length} tasks</span>
                         ) : null}

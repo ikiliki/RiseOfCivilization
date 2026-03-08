@@ -16,7 +16,7 @@ Active.
 
 ## Diagram Index
 - [Diagram 1: System Context](#diagram-1-system-context)
-- [Diagram 9: Phase 2 Multiplayer Flow](#diagram-9-phase-2-multiplayer-flow)
+- [Diagram 9: Feature 1.1 Multiplayer Flow](#diagram-9-feature-11-multiplayer-flow)
 - [Diagram 10: Stateless Realtime with Redis](#diagram-10-stateless-realtime-with-redis)
 - [Diagram 2: Monorepo Architecture](#diagram-2-monorepo-architecture)
 - [Diagram 3: Client Runtime Flow](#diagram-3-client-runtime-flow)
@@ -39,8 +39,8 @@ flowchart LR
   Server --> Database[(PostgreSQL)]
 ```
 
-## Diagram 9: Phase 2 Multiplayer Flow
-This diagram shows the WebSocket presence and position sync flow added in Phase 2.
+## Diagram 9: Feature 1.1 Multiplayer Flow
+This diagram shows the WebSocket presence and position sync flow added in Feature 1.1.
 
 - Clients connect to `/ws?token=...` after REST bootstrap.
 - Position updates are broadcast only to nearby players (chunk-radius based).
@@ -67,7 +67,7 @@ flowchart TB
 ```
 
 ## Diagram 10: Stateless Realtime with Redis
-This diagram shows the Phase 2.5 target topology for multi-instance WebSocket/API servers.
+This diagram shows the Feature 1.2 target topology for multi-instance WebSocket/API servers.
 
 - Gateway instances stay stateless and coordinate presence through Redis.
 - PostgreSQL remains the durable store; Redis carries ephemeral realtime state and events.
@@ -211,13 +211,13 @@ flowchart LR
 ## Diagram 8: Multiplayer Evolution Path
 This diagram shows the intended path from MVP single-player runtime to future multiplayer authority.
 
-- Phase 2 implements presence sync and inspect; authority remains client-side for movement.
+- Feature 1.1 implements presence sync and inspect; authority remains client-side for movement.
 - Preserves upgrade sequence from shared-world foundation.
 
 ```mermaid
 flowchart LR
   MVP[MVP Single-Player Runtime] --> SharedWorld[Shared Persistent World Baseline]
-  SharedWorld --> Presence[Phase 2: Presence + Inspect]
+  SharedWorld --> Presence[Feature 1.1: Presence + Inspect]
   Presence --> Authority[Server Authority Introduction]
   Authority --> Multiplayer[Full Multiplayer Synchronization]
 ```

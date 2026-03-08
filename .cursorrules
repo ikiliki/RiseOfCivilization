@@ -1,0 +1,9 @@
+# Rise Of Civilization Project Rules
+
+## Docker Reset Workflow
+- **After every change**, run `pnpm docker:reset`. This applies to all agents (including /coder) and all changes.
+- Treat this as mandatory, not optional. Run it yourself after making changes.
+- Only skip if the user explicitly says "don't reset Docker" or "skip docker reset".
+
+## Authoritative Rules
+Full project rules live in `docs/project-rules.md`. Read before major implementation.

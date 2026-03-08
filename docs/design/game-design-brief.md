@@ -42,9 +42,9 @@ The loop should feel stable and repeatable even with placeholder assets.
 - The shared world is not pre-generated; it is discovered over time.
 - Exploration has continuity because discovered/generated chunks persist in storage.
 - Early playtesting should validate that revisiting explored areas is stable and deterministic.
-- Phase 2: Multiple players can connect to the same world, see each other, and inspect profiles.
+- Feature 1.1: Multiple players can connect to the same world, see each other, and inspect profiles.
 
-## Phase 2 Multiplayer UX
+## Feature 1.1 Multiplayer UX
 - Players appear in the world as colored avatars (local: white, others: blue).
 - Hover over another player shows pointer cursor; click opens inspect panel.
 - Inspect panel shows: username, ID, currency, stats, location/biome.

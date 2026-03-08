@@ -1,53 +1,97 @@
-.tech h2 {
-  margin-top: 0;
-  margin-bottom: 0.85rem;
-  font-size: 1.3rem;
+.tech {
+  --tech-panel-bg: var(--bg-soft);
+  --tech-border: var(--panel-border);
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.5rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-dim);
 }
 
 .subTabs {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  padding: 0.65rem 0;
-  border-bottom: 1px solid rgba(53, 87, 143, 0.35);
-  margin-bottom: 1.1rem;
+  padding: 0 0 1rem 0;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--tech-border);
 }
 
 .subTab {
-  padding: 0.5rem 0.9rem;
-  font-size: 0.84rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-dim);
-  background: rgba(37, 99, 235, 0.06);
+  background: transparent;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: all 0.18s;
+  transition: all var(--transition);
 }
 
 .subTab:hover {
   color: var(--text);
-  background: rgba(37, 99, 235, 0.12);
-  border-color: rgba(99, 179, 255, 0.2);
+  background: rgba(48, 54, 61, 0.4);
+  border-color: var(--tech-border);
 }
 
 .subTab.active {
   color: var(--accent);
-  background: rgba(37, 99, 235, 0.18);
-  border-color: rgba(99, 179, 255, 0.4);
+  background: rgba(88, 166, 255, 0.1);
+  border-color: rgba(88, 166, 255, 0.25);
 }
 
 .panel {
-  border: 1px solid rgba(53, 87, 143, 0.4);
-  border-radius: 14px;
-  padding: 1.25rem 1.5rem;
-  background: linear-gradient(180deg, rgba(18, 30, 56, 0.98), rgba(15, 24, 44, 0.98));
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--tech-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  background: var(--tech-panel-bg);
+  box-shadow: var(--shadow-sm);
 }
 
 .diagrams {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+}
+
+.diagramCard {
+  border: 1px solid var(--tech-border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  background: var(--bg);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.diagramCard:hover {
+  border-color: var(--panel-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.markdownSection {
+  max-width: 72ch;
+}
+
+.emptyState {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.emptyState code {
+  font-size: 0.9em;
 }

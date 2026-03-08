@@ -10,7 +10,10 @@ export function HomeView({ content }: HomeViewProps) {
     projectSummary: content.docs?.docsReadme
       ? (content.docs.docsReadme.match(/## Project Summary\s*([\s\S]*?)(?=##\s+|$)/m)?.[1]?.trim() ?? 'Internal docs portal.')
       : 'Internal docs portal for Rise Of Civilization.',
-    currentPhase: content.planStatus?.phase ?? 'Unknown',
+    currentFeature:
+      (content.planStatus as { feature?: string })?.feature ??
+      (content.planStatus as { phase?: string })?.phase ??
+      'Unknown',
     lastUpdated: new Date().toISOString().slice(0, 10)
   };
 
@@ -24,8 +27,11 @@ export function HomeView({ content }: HomeViewProps) {
           <p>Rise Of Civilization</p>
         </article>
         <article className={styles.card}>
-          <h3>Current Phase</h3>
-          <div className={styles.phase}>{overview.currentPhase}</div>
+          <h3>Current Feature</h3>
+          <div className={styles.phase}>
+            {(overview as { currentFeature?: string }).currentFeature ??
+              (overview as { currentPhase?: string }).currentPhase}
+          </div>
         </article>
         <article className={styles.card}>
           <h3>Last Updated</h3>

@@ -4,9 +4,9 @@ import { SectionShell } from '../../components/SectionShell/SectionShell';
 import { StatusFilters } from '../../components/StatusFilters/StatusFilters';
 import { WorkItemsBoard } from '../../components/WorkItemsBoard/WorkItemsBoard';
 import {
-  extractRoadmapPhases,
+  extractRoadmapFeatures,
   filterWorkItems,
-  getPhaseOptions,
+  getFeatureOptions,
   normalizeWorkItems
 } from '../../lib/dashboard';
 import type { PlanStatus } from '../../types/content';
@@ -27,13 +27,15 @@ export function PlanStatusSection({
   const [phaseFilter, setPhaseFilter] = useState('all');
 
   const workItems = useMemo(() => normalizeWorkItems(planStatus), [planStatus]);
-  const phaseCards = useMemo(
-    () => extractRoadmapPhases(roadmapMarkdown, planStatus.phase),
-    [roadmapMarkdown, planStatus.phase]
+  const currentFeature =
+    (planStatus as { feature?: string }).feature ?? (planStatus as { phase?: string }).phase ?? '';
+  const featureCards = useMemo(
+    () => extractRoadmapFeatures(roadmapMarkdown, currentFeature),
+    [roadmapMarkdown, currentFeature]
   );
-  const phaseOptions = useMemo(
-    () => getPhaseOptions(workItems, phaseCards),
-    [workItems, phaseCards]
+  const featureOptions = useMemo(
+    () => getFeatureOptions(workItems, featureCards),
+    [workItems, featureCards]
   );
   const filteredItems = useMemo(
     () => filterWorkItems(workItems, statusFilter, phaseFilter),
@@ -45,7 +47,7 @@ export function PlanStatusSection({
       <div className={styles.header}>
         <div className={styles.phaseCard}>
           <span className={styles.eyebrow}>Current PBI</span>
-          <h3>{planStatus.phase}</h3>
+          <h3>{currentFeature}</h3>
           <p className={styles.phaseHint}>
             The active phase is the top-level PBI. The board below breaks the work into done,
             current, and next execution items.
@@ -70,27 +72,27 @@ export function PlanStatusSection({
 
       <div className={styles.phaseDashboard}>
         <div className={styles.blockHeader}>
-          <h3>Phase Status</h3>
-          <p>Milestones derived from the synced implementation roadmap.</p>
+          <h3>Feature Status</h3>
+          <p>Features derived from the synced implementation roadmap.</p>
         </div>
-        <PhaseDashboard phases={phaseCards} />
+        <PhaseDashboard phases={featureCards} />
       </div>
 
       <div className={styles.board}>
         <div className={styles.blockHeader}>
           <h3>Task Board</h3>
-          <p>Filter work items by phase or status to narrow the current execution set.</p>
+          <p>Filter work items by feature or status to narrow the current execution set.</p>
         </div>
         <StatusFilters
           phaseFilter={phaseFilter}
-          phaseOptions={phaseOptions}
+          phaseOptions={featureOptions}
           statusFilter={statusFilter}
           totalCount={workItems.length}
           visibleCount={filteredItems.length}
           onPhaseChange={setPhaseFilter}
           onStatusChange={setStatusFilter}
         />
-        <WorkItemsBoard items={filteredItems} pbiTitle={planStatus.phase} />
+        <WorkItemsBoard items={filteredItems} pbiTitle={currentFeature} />
       </div>
     </SectionShell>
   );
