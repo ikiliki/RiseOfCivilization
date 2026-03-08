@@ -82,7 +82,11 @@ Use root-level workspace scripts for simplicity:
 - `pnpm docker:reset` to tear down, remove volumes, and bring stack back up with fresh DB/cache. Run after each change unless explicitly skipping it for a task.
 - `pnpm docker:down` to stop and remove containers and volumes.
 - `pnpm build:reset` to build all packages, then reset Docker (fresh DB).
-- Hybrid: `docker compose -f docker/compose.yml up -d postgres redis` then `pnpm dev` to run app locally with Dockerized DB/cache.
+- **Hybrid (Docker DB + local app):**
+  - `pnpm local:db` — start postgres + redis, wait for healthy.
+  - `pnpm dev:local` — local:db, then server + client (Scania on :4000, client on :5174).
+  - `pnpm dev:local:server` — local:db, then server only.
+  - `pnpm dev:local:client` — local:db, then client only (run server in another terminal first).
 - `pnpm test` for unit/integration tests.
 - `pnpm lint` and `pnpm typecheck`.
 - `pnpm storybook` for UI component development.
