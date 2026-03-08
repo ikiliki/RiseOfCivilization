@@ -9,6 +9,10 @@
   ],
   "packageManager": "pnpm@10.6.1",
   "scripts": {
+    "local:db": "docker compose -f docker/compose.yml up -d --wait postgres redis",
+    "dev:local": "pnpm local:db && pnpm -r --parallel --filter @roc/server --filter @roc/client run start:local",
+    "dev:local:server": "pnpm local:db && pnpm start:local:server",
+    "dev:local:client": "pnpm local:db && pnpm start:local:client",
     "dev": "pnpm -r --parallel run dev",
     "start": "pnpm run start:docker",
     "start:local": "pnpm --filter @roc/server --filter @roc/client run start:local",
